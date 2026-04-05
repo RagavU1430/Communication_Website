@@ -42,29 +42,8 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // If user exists, check for MFA
-  if (user) {
-    const { data: aal, error } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-    
-    // If the user has a verified factor but only used AAL1 (password) to sign in,
-    // they need to complete AAL2 (MFA).
-    if (aal?.nextLevel === 'aal2' && aal?.currentLevel === 'aal1') {
-      // Allow access to the verify page, but redirect everything else to verify
-      if (!request.nextUrl.pathname.startsWith('/verify')) {
-        const url = request.nextUrl.clone();
-        url.pathname = '/verify';
-        return NextResponse.redirect(url);
-      }
-    } else {
-      // If they are fully authenticated (or don't have MFA), don't let them on the verify page or login page
-      // Exception: allow going to /dashboard or other pages.
-      if (request.nextUrl.pathname.startsWith('/verify') || request.nextUrl.pathname.startsWith('/login')) {
-         const url = request.nextUrl.clone();
-         url.pathname = '/dashboard';
-         return NextResponse.redirect(url);
-      }
-    }
-  }
+  // If user exists, optionally we can verify session rules.
+  // MFA checks have been removed.
 
   return supabaseResponse;
 }

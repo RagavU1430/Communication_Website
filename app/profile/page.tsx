@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
-import MfaSetup from "@/components/MfaSetup";
 import { useAuth } from "@/components/AuthProvider";
 
 // Badge definitions
@@ -222,17 +221,6 @@ export default function Profile() {
             </div>
           </div>
         </header>
-
-        {/* Security Section */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-headline font-bold mb-6 flex items-center gap-3 text-on-surface">
-            <span className="material-symbols-outlined text-primary">security</span>
-            Security Settings
-          </h2>
-          <div className="bg-surface-container-lowest p-8 rounded-lg shadow-sm border border-outline-variant/10">
-            <MfaSetup />
-          </div>
-        </section>
 
         {/* Bento Grid Stats */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
