@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#66affe",
+                    "tertiary-container": "#74c3fe",
+                    "inverse-surface": "#000d27",
+                    "on-tertiary-fixed": "#00253b",
+                    "on-secondary-fixed": "#004a29",
+                    "background": "#f5f6ff",
+                    "secondary": "#00693e",
+                    "tertiary-fixed-dim": "#65b5ef",
+                    "primary-dim": "#00528d",
+                    "surface-container-high": "#d7e2ff",
+                    "secondary-container": "#91f8b8",
+                    "on-primary-container": "#002e52",
+                    "surface-bright": "#f5f6ff",
+                    "surface-tint": "#005ea0",
+                    "secondary-dim": "#005c35",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#74c3fe",
+                    "tertiary": "#006190",
+                    "inverse-on-surface": "#8a9dc5",
+                    "surface": "#f5f6ff",
+                    "tertiary-dim": "#00547e",
+                    "surface-container": "#e0e8ff",
+                    "on-primary": "#edf3ff",
+                    "on-background": "#1a2e50",
+                    "outline-variant": "#9aadd6",
+                    "on-secondary-container": "#005e37",
+                    "on-error": "#ffefee",
+                    "surface-container-highest": "#cfddff",
+                    "primary-fixed": "#66affe",
+                    "on-error-container": "#570008",
+                    "secondary-fixed": "#91f8b8",
+                    "on-surface": "#1a2e50",
+                    "on-surface-variant": "#495c80",
+                    "error-container": "#fb5151",
+                    "primary-fixed-dim": "#58a2f0",
+                    "on-tertiary": "#eaf4ff",
+                    "on-primary-fixed": "#001124",
+                    "primary": "#005ea0",
+                    "surface-container-low": "#ecf0ff",
+                    "error-dim": "#9f0519",
+                    "surface-variant": "#cfddff",
+                    "inverse-primary": "#66affe",
+                    "on-tertiary-container": "#003c5c",
+                    "on-secondary-fixed-variant": "#00693e",
+                    "on-secondary": "#cbffd9",
+                    "outline": "#64779d",
+                    "on-primary-fixed-variant": "#003761",
+                    "error": "#b31b25",
+                    "secondary-fixed-dim": "#82e9aa",
+                    "on-tertiary-fixed-variant": "#004669",
+                    "surface-dim": "#c2d5ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Be Vietnam Pro"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body antialiased">
+<!-- Top Navigation -->
+<nav class="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 backdrop-blur-lg bg-[#f5f6ff]/80 z-50">
+<div class="text-2xl font-bold tracking-tight text-[#005ea0] font-headline">GrammarJourney</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-[#005ea0] font-bold border-b-2 border-[#005ea0] font-headline text-sm" href="#">Home</a>
+<a class="text-[#1a2e50] opacity-70 hover:opacity-100 transition-opacity duration-200 font-headline text-sm" href="#features">Features</a>
+<a class="text-[#1a2e50] opacity-70 hover:opacity-100 transition-opacity duration-200 font-headline text-sm" href="#about">About Us</a>
+<div class="flex items-center gap-4 ml-4">
+<span class="material-symbols-outlined text-[#005ea0]">notifications</span>
+<span class="material-symbols-outlined text-[#005ea0]">emoji_events</span>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2 rounded-xl text-primary font-semibold hover:bg-surface-container-low transition-colors">Log In</button>
+<button class="bg-gradient-to-r from-primary to-primary-container text-white px-6 py-2 rounded-xl font-semibold shadow-[0_10px_20px_-5px_rgba(0,94,160,0.3)] hover:scale-95 transition-transform active:scale-90">Sign Up</button>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="relative px-6 py-12 md:py-24 overflow-hidden">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="z-10">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary-container text-on-secondary-container font-headline font-bold text-xs mb-6 uppercase tracking-wider">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        Beginner-Friendly
+                    </div>
+<h1 class="font-headline font-extrabold text-5xl md:text-6xl lg:text-7xl leading-tight text-on-background mb-6">
+                        Unlock Your <span class="text-primary italic">Confidence.</span>
+</h1>
+<p class="text-on-surface-variant text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
+                        Start Your English Speaking Journey Today. Forget boring drills. Experience a modern pastoral learning path designed for real-life connection.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-10 py-5 rounded-xl text-lg font-bold shadow-[0_20px_40px_-10px_rgba(0,94,160,0.4)] hover:scale-105 transition-transform">
+                            Get Started Free
+                        </button>
+<button class="border-2 border-outline-variant/30 text-primary px-10 py-5 rounded-xl text-lg font-bold hover:bg-surface-container-low transition-colors">
+                            View Curriculum
+                        </button>
+</div>
+</div>
+<div class="relative">
+<!-- Decorative Background Shapes -->
+<div class="absolute -top-20 -right-20 w-96 h-96 bg-primary-container/20 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-20 -left-20 w-96 h-96 bg-secondary-container/20 rounded-full blur-3xl"></div>
+<!-- Hero Image -->
+<div class="relative z-10 rounded-lg overflow-visible">
+<img alt="Diverse group communicating" class="rounded-lg shadow-2xl transform rotate-1 hover:rotate-0 transition-transform duration-500" data-alt="A diverse group of cheerful young adults sitting in a sunlit meadow, engaged in active conversation and laughter, modern pastoral aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAOyVocWMKNRYWNML3oXsG13O7HWEphIFlreNeveaCpcVV3LLyYJ5quoX0C1DmDdZiaVUz6-bd-dRQcbMITd2MdQQlJ0ac8R6MxUXk5iYhOvONN4nQAXz6VZRHLABUiB8I2FBSew9XOzZNgzjZeUCH8B49Y9gV7cczsAlPeWxlNVlUlHFSc4-Pi2mtbsVvHdca22Xl1dc_nE8Nt4EnX82dZmNeMNarqqMy-V0NsnCZ64d1RS2ndKMNifBykTJdUpFPlqQ0Wj5tQjUt"/>
+<!-- Floating Achievement Card -->
+<div class="absolute -bottom-6 -left-6 glass-panel p-6 rounded-lg shadow-xl border border-white/40 max-w-[240px]">
+<div class="flex items-center gap-4 mb-3">
+<div class="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-white">
+<span class="material-symbols-outlined">forum</span>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant font-headline font-bold">DAILY GOAL</p>
+<p class="font-bold text-on-surface">Fluent Dialogues</p>
+</div>
+</div>
+<div class="w-full h-2 bg-secondary-container rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-secondary relative">
+<div class="absolute top-0 right-0 h-full w-4 bg-white/20 skew-x-12"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Features -->
+<section class="px-6 py-24 bg-surface-container-low" id="features">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline text-4xl font-extrabold mb-4">Why GrammarJourney?</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">We've reimagined English learning as a scenic walk through a landscape of language.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Feature 1 -->
+<div class="md:col-span-2 bg-surface-container-lowest p-10 rounded-lg border border-outline-variant/10 flex flex-col md:flex-row gap-8 items-center group">
+<div class="flex-1">
+<div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined text-3xl">auto_stories</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">No alphabets, just action</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">Dive straight into communication. We skip the rote memorization and focus on the natural patterns of speech used by natives every day.</p>
+<a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-4 transition-all" href="#">Explore our method <span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+<div class="w-full md:w-1/2">
+<img alt="Action learning" class="rounded-lg shadow-lg group-hover:scale-105 transition-transform" data-alt="Close up of hands writing in a journal in a sunlit wooden cabin, soft shadows, warm natural light, peaceful study environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhpqYA92oI6zx04839TZHImqPbvj8i5GsFHYBqYXvkwrEY7Cyv8df9wCEO_xpzakGLLWLJkUhQ8-y8pxXqEOyHvjs7SBrom9kLqgkC-AI1RRJflFfsUpr5st6WRUlaFta2W2gdfMDb-jQnCZMvS_ImPBmm1cu1_58BNkZt-8UTW95sQKxOI7cQkGqHg4FkOalglVJMnqnyCX85fCK5G04K9JSZhqurxq7OrYlBJ9whHFxsEL-8JWns_mAzK-u5OsqL_zxIg-39maf3"/>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="bg-gradient-to-br from-secondary to-secondary-dim p-10 rounded-lg text-white flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-3xl">psychology</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Learn by doing</h3>
+<p class="text-on-secondary/80 leading-relaxed">Our interactive Journey Map challenges you to apply knowledge instantly through immersive role-play scenarios.</p>
+</div>
+<div class="mt-8 pt-8 border-t border-white/10">
+<div class="flex -space-x-3 mb-4">
+<img alt="User 1" class="w-10 h-10 rounded-full border-2 border-secondary" data-alt="Portrait of a smiling young man in casual attire, outdoor sunny setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDO9Dv718FT09oBrgggy4R8uZhxint6SA8fqEZh9Ko0B_APWW1ZuyI2Hrqtj01meej2X7Z90uQdobSw0TGCXFj0M8wOC2f40ESfbUDEIyObQAUnvTS87IsHqGK_n7QwPCqJPnJUawTYANMC7b-3aS9cN33tvz-LbbACqRwm8OaoP--sigupBpUR8sS_SQZwmRscQtqy6P6zQSNoTo7Wq4DiCyj7Xa9JOvRBQ9KmXisZ0ntocib8Yc1ehY4YoxawIgHByEPcztpNi9Er"/>
+<img alt="User 2" class="w-10 h-10 rounded-full border-2 border-secondary" data-alt="Portrait of a cheerful young woman with curly hair, natural light background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMZZysQg4p7fjCwfjWWvMUTsMFcBHPIbZ0e4xc5Ov07iu2taOoAwbHT1LyK_nQz1XsZrQ26OILd8GkSP7XMwYaTxmHRarRMUvy4Uxr2KSExoum0Gc9Ta_ibz5qr2-kwubXhIYTLkDl14anjAxMxvGTYj2My75zMlWzyc-XZSJfoDUhDjNYp9UOsuSopsLIrnsk4IfIrGRWbQMQ7cnsYAFQFFnc1SbMJE0avcGTNnSAegeqMk3OhrJMozqTP9X3cNelxmfwY6mKQ2a6"/>
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-xs font-bold border-2 border-secondary">+2k</div>
+</div>
+<p class="text-sm font-medium">Joined by 2,000+ learners today</p>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="bg-surface-container-lowest p-10 rounded-lg border border-outline-variant/10 flex flex-col justify-between group">
+<div class="w-14 h-14 bg-tertiary/10 rounded-2xl flex items-center justify-center mb-6 text-tertiary">
+<span class="material-symbols-outlined text-3xl">location_city</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Real-life scenarios</h3>
+<p class="text-on-surface-variant leading-relaxed">From ordering coffee in London to leading a meeting in New York, we prepare you for the world as it is.</p>
+<div class="mt-8 overflow-hidden rounded-lg">
+<img alt="Real life scenario" class="rounded-lg group-hover:scale-110 transition-transform duration-700" data-alt="People interacting in a modern, stylish coffee shop with large windows and plants, soft urban atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUqj9nONrTYGvGygkyY5sCw1D4pnUHsgsmHdTrmZrwVX-4hRsSXTwog4QMevW0LtRDXxGULKy7gyAWs_i_oWS6YWqsaYoQka8zIWXniwEJLChvKwI2rUvtFXbtAx7eXBActbrGrENPVp7knL_wKUFmj_i0C82hM_R9YzqfJ3ofpUoEfG3o4tBLGayIrc-HGTfW_7A0xAPVh27Oq6YSHH9_pNs4tN6T9EWFt6H_xvG-y7NmC044106MYMHJoS5GlDc6mfmvPRAm42H9"/>
+</div>
+</div>
+<!-- Feature 4 -->
+<div class="md:col-span-2 bg-white p-10 rounded-lg flex flex-col md:flex-row items-center gap-10">
+<div class="relative w-full md:w-1/2 aspect-video rounded-lg overflow-hidden bg-surface-dim">
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-white/40">map</span>
+</div>
+<!-- Map placeholder -->
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-secondary/10"></div>
+</div>
+<div class="flex-1">
+<h3 class="font-headline text-2xl font-bold mb-4">The Journey Map</h3>
+<p class="text-on-surface-variant mb-6">A visual, non-linear path through grammar concepts that feels like exploring a beautiful countryside.</p>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface font-medium">Dynamic difficulty scaling</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface font-medium">Unlockable regional accents</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Auth / Call to Action Section -->
+<section class="px-6 py-24 relative overflow-hidden">
+<div class="max-w-4xl mx-auto text-center">
+<div class="glass-panel p-12 md:p-20 rounded-lg shadow-2xl border border-white/60 relative z-10">
+<h2 class="font-headline text-4xl md:text-5xl font-extrabold mb-8">Ready to start your journey?</h2>
+<p class="text-xl text-on-surface-variant mb-12">Join thousands of students mastering English through the Modern Pastoral path.</p>
+<div class="max-w-md mx-auto space-y-4">
+<div class="relative">
+<input class="w-full px-6 py-5 rounded-xl border-none bg-surface-container-low focus:ring-2 focus:ring-primary text-lg" placeholder="Enter your email" type="email"/>
+</div>
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-white py-5 rounded-xl text-xl font-bold shadow-lg hover:shadow-2xl transition-shadow">
+                            Create Free Account
+                        </button>
+<div class="flex items-center justify-center gap-4 py-4">
+<div class="h-px bg-outline-variant/30 flex-1"></div>
+<span class="text-sm font-bold text-on-surface-variant uppercase tracking-widest">or</span>
+<div class="h-px bg-outline-variant/30 flex-1"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 py-4 bg-white border border-outline-variant/20 rounded-xl hover:bg-surface-container-low transition-colors">
+<img alt="Google" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzKi8FkPf0B73MyWPEKciBGtY7rP4xuakvLMZyywX3rDU_fLkW9-Ed6gtF3kMTufTJjsr4E6Gf80-7z25MoqTtk8p2vfQ1qTMhtW0UYIqbL9ZcNTNlzCWGpl-XmVpBji8dC879McSWKxBL54k67u0RPOeIWZBUI7xfTeaiQLAtVURkDcAqzNFbzDuRCoqgkVp35TQKg1F5Sq2P5jgEMrrHG01_-WJfaULNJ2Om7GURFGWE8abXvLREbL7riucT_Z_4drGQotOnTUNs"/>
+<span class="font-bold text-sm">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-4 bg-white border border-outline-variant/20 rounded-xl hover:bg-surface-container-low transition-colors">
+<img alt="LinkedIn" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO1dcr01PaaiB8cXInEd0MSXkzzbWz-xDbYEQnHBnd_Q2kklKQJsLIg2kOJTjZg7PwOO-uXLfaTdQ2pQ__04pd7oL_fzC5GGf9RxUxAW6n_Y3UaVIMJM01ZZiBpxlvVThAQjmGJb8clfkULLRsAVTNT_aobxh42lpQEQzMAnZnrcINY6bw5myTGhEOF9gAwjty5EhV3mLSk-4mkozLPLCTKKjJw35B-wQ4C2J4q2pp7I9dWjNneHZX82yu0TZirGCGQ3raMvdaH5R7"/>
+<span class="font-bold text-sm">LinkedIn</span>
+</button>
+</div>
+</div>
+<p class="mt-8 text-sm text-on-surface-variant">
+                        Already have an account? <a class="text-primary font-bold underline" href="#">Log in here</a>
+</p>
+</div>
+</div>
+<!-- Abstract background graphic -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] -z-0 opacity-20">
+<svg class="w-full h-full fill-primary-container" viewbox="0 0 100 100">
+<path d="M0,50 Q25,0 50,50 T100,50 V100 H0 Z"></path>
+</svg>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full flex flex-col items-center gap-6 px-8 mt-20 border-t border-[#9aadd6]/10 py-12 bg-[#f5f6ff]">
+<div class="flex flex-wrap justify-center gap-8 md:gap-16">
+<a class="font-headline text-xs text-[#1a2e50]/60 hover:text-[#005ea0] transition-colors" href="#">Help Center</a>
+<a class="font-headline text-xs text-[#1a2e50]/60 hover:text-[#005ea0] transition-colors" href="#">About Us</a>
+<a class="font-headline text-xs text-[#1a2e50]/60 hover:text-[#005ea0] transition-colors" href="#">Privacy Policy</a>
+<a class="font-headline text-xs text-[#1a2e50]/60 hover:text-[#005ea0] transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="font-bold text-[#1a2e50] font-headline">GrammarJourney</div>
+<p class="font-body text-xs text-[#1a2e50]/60 text-center">© 2024 GrammarJourney. The Modern Pastoral Learning Path.</p>
+</footer>
+</body></html>

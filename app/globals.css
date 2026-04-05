@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-container: #66affe;
+  --color-tertiary-container: #74c3fe;
+  --color-inverse-surface: #000d27;
+  --color-on-tertiary-fixed: #00253b;
+  --color-on-secondary-fixed: #004a29;
+  --color-background: #f5f6ff;
+  --color-secondary: #00693e;
+  --color-tertiary-fixed-dim: #65b5ef;
+  --color-primary-dim: #00528d;
+  --color-surface-container-high: #d7e2ff;
+  --color-secondary-container: #91f8b8;
+  --color-on-primary-container: #002e52;
+  --color-surface-bright: #f5f6ff;
+  --color-surface-tint: #005ea0;
+  --color-secondary-dim: #005c35;
+  --color-surface-container-lowest: #ffffff;
+  --color-tertiary-fixed: #74c3fe;
+  --color-tertiary: #006190;
+  --color-inverse-on-surface: #8a9dc5;
+  --color-surface: #f5f6ff;
+  --color-tertiary-dim: #00547e;
+  --color-surface-container: #e0e8ff;
+  --color-on-primary: #edf3ff;
+  --color-on-background: #1a2e50;
+  --color-outline-variant: #9aadd6;
+  --color-on-secondary-container: #005e37;
+  --color-on-error: #ffefee;
+  --color-surface-container-highest: #cfddff;
+  --color-primary-fixed: #66affe;
+  --color-on-error-container: #570008;
+  --color-secondary-fixed: #91f8b8;
+  --color-on-surface: #1a2e50;
+  --color-on-surface-variant: #495c80;
+  --color-error-container: #fb5151;
+  --color-primary-fixed-dim: #58a2f0;
+  --color-on-tertiary: #eaf4ff;
+  --color-on-primary-fixed: #001124;
+  --color-primary: #005ea0;
+  --primary-rgb: 0, 94, 160;
+  --color-surface-container-low: #ecf0ff;
+  --color-error-dim: #9f0519;
+  --color-surface-variant: #cfddff;
+  --color-inverse-primary: #66affe;
+  --color-on-tertiary-container: #003c5c;
+  --color-on-secondary-fixed-variant: #00693e;
+  --color-on-secondary: #cbffd9;
+  --color-outline: #64779d;
+  --color-on-primary-fixed-variant: #003761;
+  --color-error: #b31b25;
+  --color-secondary-fixed-dim: #82e9aa;
+  --color-on-tertiary-fixed-variant: #004669;
+  --color-surface-dim: #c2d5ff;
+
+  --radius-default: 1rem;
+  --radius-lg: 2rem;
+  --radius-xl: 3rem;
+  --radius-full: 9999px;
+
+  --font-headline: "Plus Jakarta Sans";
+  --font-body: "Be Vietnam Pro";
+  --font-label: "Plus Jakarta Sans";
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-background font-body antialiased;
+  }
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}

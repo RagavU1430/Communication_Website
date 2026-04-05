@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GrammarJourney Student Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#66affe",
+                        "tertiary-container": "#74c3fe",
+                        "inverse-surface": "#000d27",
+                        "on-tertiary-fixed": "#00253b",
+                        "on-secondary-fixed": "#004a29",
+                        "background": "#f5f6ff",
+                        "secondary": "#00693e",
+                        "tertiary-fixed-dim": "#65b5ef",
+                        "primary-dim": "#00528d",
+                        "surface-container-high": "#d7e2ff",
+                        "secondary-container": "#91f8b8",
+                        "on-primary-container": "#002e52",
+                        "surface-bright": "#f5f6ff",
+                        "surface-tint": "#005ea0",
+                        "secondary-dim": "#005c35",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#74c3fe",
+                        "tertiary": "#006190",
+                        "inverse-on-surface": "#8a9dc5",
+                        "surface": "#f5f6ff",
+                        "tertiary-dim": "#00547e",
+                        "surface-container": "#e0e8ff",
+                        "on-primary": "#edf3ff",
+                        "on-background": "#1a2e50",
+                        "outline-variant": "#9aadd6",
+                        "on-secondary-container": "#005e37",
+                        "on-error": "#ffefee",
+                        "surface-container-highest": "#cfddff",
+                        "primary-fixed": "#66affe",
+                        "on-error-container": "#570008",
+                        "secondary-fixed": "#91f8b8",
+                        "on-surface": "#1a2e50",
+                        "on-surface-variant": "#495c80",
+                        "error-container": "#fb5151",
+                        "primary-fixed-dim": "#58a2f0",
+                        "on-tertiary": "#eaf4ff",
+                        "on-primary-fixed": "#001124",
+                        "primary": "#005ea0",
+                        "surface-container-low": "#ecf0ff",
+                        "error-dim": "#9f0519",
+                        "surface-variant": "#cfddff",
+                        "inverse-primary": "#66affe",
+                        "on-tertiary-container": "#003c5c",
+                        "on-secondary-fixed-variant": "#00693e",
+                        "on-secondary": "#cbffd9",
+                        "outline": "#64779d",
+                        "on-primary-fixed-variant": "#003761",
+                        "error": "#b31b25",
+                        "secondary-fixed-dim": "#82e9aa",
+                        "on-tertiary-fixed-variant": "#004669",
+                        "surface-dim": "#c2d5ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Be Vietnam Pro"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f5f6ff;
+            color: #1a2e50;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 backdrop-blur-lg bg-[#f5f6ff] z-50">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold tracking-tight text-[#005ea0] font-['Plus_Jakarta_Sans']">GrammarJourney</span>
+<div class="hidden md:flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-full">
+<span class="text-sm font-semibold text-primary font-headline">Level 1: Present Tense</span>
+<div class="w-32 h-2 bg-outline-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[20%] relative">
+<div class="absolute right-0 top-0 h-full w-1 bg-white/30"></div>
+</div>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">20%</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">emoji_events</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border-2 border-primary-container overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Close-up portrait of a friendly student with a small level 6 badge icon in the corner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAC7iZ9BwOCkPuo9fl8n_pu6helIr86wgM9fqEE97rpQhBNqD8KvbZRKPq32wd-wM25hispspzpXO-C2TtzaveAuCV78ITnNZJ3JKZoO4IIolusQCPv1B_AtuQu-aMIOo2_v46Xkvvpnv8rdjBv9Mxy3IEiWbiMVzqZAI5i2qSEeWb90AAYqcBvY111e4FmkxTVcbeERami4sFhj1fds-yCvwOrf6j4tE_RM5UdavmjqInad2kM3c4Uq5HyOzegN34hctVghM5xJS6"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="hidden lg:flex flex-col h-screen fixed left-0 py-8 space-y-4 backdrop-blur-xl bg-white/80 w-64 rounded-r-[3rem] border-r border-[#9aadd6]/15 shadow-[40px_0_60px_-15px_rgba(26,46,80,0.06)] z-40 mt-16">
+<div class="px-8 mb-6">
+<h3 class="font-headline font-bold text-on-surface text-lg">English Learner</h3>
+<p class="text-xs text-on-surface-variant">Level 6: Intermediate</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="bg-gradient-to-r from-[#005ea0] to-[#66affe] text-white rounded-full mx-2 my-1 px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-headline font-semibold">Home</span>
+</a>
+<a class="text-[#1a2e50] px-4 py-3 mx-2 flex items-center gap-3 hover:bg-[#d7e2ff]/50 rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-headline font-semibold">Journey Map</span>
+</a>
+<a class="text-[#1a2e50] px-4 py-3 mx-2 flex items-center gap-3 hover:bg-[#d7e2ff]/50 rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-headline font-semibold">History</span>
+</a>
+<a class="text-[#1a2e50] px-4 py-3 mx-2 flex items-center gap-3 hover:bg-[#d7e2ff]/50 rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-headline font-semibold">Profile</span>
+</a>
+</nav>
+<div class="mt-auto px-4 pb-12">
+<button class="w-full py-4 bg-secondary text-on-secondary rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-secondary/20">
+<span class="material-symbols-outlined">bolt</span>
+                Daily Challenge
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-24 px-6 pb-12 min-h-screen">
+<div class="max-w-6xl mx-auto space-y-8">
+<!-- Hero Welcome Section -->
+<section class="relative overflow-hidden rounded-xl bg-gradient-to-br from-surface-container-lowest to-surface-container-low shadow-sm">
+<div class="p-8 md:p-12 flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+<div class="space-y-6 max-w-xl text-center md:text-left">
+<h1 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tight text-on-surface">Welcome back, Alex!</h1>
+<p class="text-lg text-on-surface-variant font-body">You're making incredible progress in the <b>Present Tense</b> module. Ready to bridge the gap to level 2 today?</p>
+<button class="px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-white rounded-xl font-bold text-lg shadow-[0_10px_30px_-5px_rgba(0,94,160,0.3)] hover:scale-105 transition-transform">
+                            Continue Your Journey
+                        </button>
+</div>
+<div class="relative w-full md:w-1/3 aspect-square flex items-center justify-center">
+<div class="absolute inset-0 bg-secondary-container/20 rounded-full blur-3xl"></div>
+<img alt="Learning" class="relative z-10 w-full h-auto drop-shadow-2xl" data-alt="Vibrant 3D illustration of an open book with a path leading into a lush green countryside under a clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_GMepy38w7mWs_Ofh6J-n3vYp77C7D4dYlaza4X1tRaRxgHRWCFK2O6MfQ2nrOMcsEMxW3kUFQReODfJWDmA58kIR_ESXg2V2Fnr_miEzsXC7QmPMMGH6bEiTlWHdqrWavoMcX6c-wn0Q3u6B1ZKSA1c1QBa7IaKOVxi2s4XBV00RWkdTTcKG38jvmiZj0Dypd12hUZ4XtZaun6E-5QRmfSyFg0e5BL32iGN4PvgLtD6L_ocTh-03xyfRNeIhu4UVeg72bQFpZa4g"/>
+</div>
+</div>
+<!-- Abstract Design Elements -->
+<div class="absolute -bottom-12 -right-12 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+</section>
+<!-- Stats Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Communication Score -->
+<div class="bg-surface-container-lowest p-8 rounded-lg flex flex-col items-center justify-center text-center space-y-2 border-b-4 border-primary">
+<span class="text-primary-dim text-sm font-bold font-headline uppercase tracking-widest">Communication Score</span>
+<div class="text-6xl font-headline font-extrabold text-on-surface">450</div>
+<div class="flex items-center text-secondary font-bold text-sm">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+                        +12% this week
+                    </div>
+</div>
+<!-- Lessons Completed -->
+<div class="bg-surface-container-lowest p-8 rounded-lg flex flex-col items-center justify-center text-center space-y-4">
+<span class="text-on-surface-variant text-sm font-bold font-headline">Lessons Completed</span>
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-secondary" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="236.1" stroke-width="8"></circle>
+</svg>
+<span class="absolute text-xl font-extrabold">3<span class="text-on-surface-variant/50 text-sm">/50</span></span>
+</div>
+<p class="text-xs text-on-surface-variant italic">The journey is just beginning</p>
+</div>
+<!-- Current Streak -->
+<div class="bg-gradient-to-br from-secondary to-on-secondary-container p-8 rounded-lg flex flex-col items-center justify-center text-center text-on-secondary space-y-2">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<div class="text-5xl font-headline font-extrabold">2 Days</div>
+<span class="text-sm font-bold opacity-80 uppercase tracking-widest">Current Streak</span>
+</div>
+</section>
+<!-- Analysis & Next Goal Section -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Strengths & Weaknesses -->
+<div class="bg-surface-container-lowest p-8 rounded-lg space-y-8">
+<h2 class="text-2xl font-headline font-bold text-on-surface">Proficiency Analysis</h2>
+<div class="space-y-6">
+<div class="space-y-3">
+<div class="flex justify-between items-end">
+<label class="text-sm font-bold text-secondary font-headline">Strengths: Simple Sentences</label>
+<span class="text-xs font-bold text-on-surface-variant">Mastered</span>
+</div>
+<div class="w-full h-3 bg-secondary-container/30 rounded-full">
+<div class="h-full bg-secondary rounded-full w-[85%] relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+</div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-end">
+<label class="text-sm font-bold text-error font-headline">Weaknesses: Asking Questions</label>
+<span class="text-xs font-bold text-on-surface-variant">Focus Area</span>
+</div>
+<div class="w-full h-3 bg-error-container/10 rounded-full">
+<div class="h-full bg-error rounded-full w-[35%]"></div>
+</div>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/10">
+<p class="text-sm text-on-surface-variant leading-relaxed">
+<span class="font-bold text-primary">Tip:</span> Try the "Question Master" drill today to improve your inquiry skills.
+                        </p>
+</div>
+</div>
+<!-- Next Goal Card -->
+<div class="relative overflow-hidden rounded-lg bg-surface-container p-8 flex flex-col justify-between">
+<div class="relative z-10">
+<span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">NEXT GOAL</span>
+<h2 class="mt-4 text-3xl font-headline font-bold text-on-surface">Level 1: Daily Actions</h2>
+<p class="mt-4 text-on-surface-variant max-w-xs">Master how to describe your everyday routine using standard present tense verbs.</p>
+</div>
+<div class="mt-8 relative z-10 flex items-center justify-between">
+<div class="flex -space-x-3">
+<img alt="Learner" class="w-10 h-10 rounded-full border-4 border-surface-container" data-alt="Profile avatar of a young learner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPoIK4xa5urC99VzTMKeUzeuvCc_jj_vrGQzvb7Ycyi572uUpsx6NoE5iU7M3z4t-nxcG2m3gkWjcXlZxrxgl5BUYfvrpPYpaJDcftUOistDc0xaToCB8M7bduefxzr8W2u_xiqjFVlKM1wxcT_tOp8P3DPyJWq7YBI-_U9Q5C4bnGob_7vIU0rvS01i7CLEJS33MLdaMiSBrlGbm1egVtknuDjThzO4-PZD7AFseuccH9a2TauKqlhjStu3qUpFfSJEq-LD77adGP"/>
+<img alt="Learner" class="w-10 h-10 rounded-full border-4 border-surface-container" data-alt="Profile avatar of a focused learner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAym8-q1JKUMZQ0wRhpVPFDBBF8lfU6XTm8hyLbmvB639WeqD0YXrTVMftTdUDDHF6TKGkJ88D8rXjimyexPz5iLqWP1W-jhZ8RJxEloILgL3hNyhVnUYEbAx3mQrlGxwQWJJcotfqtzBrJk0N1RQ56xXwSofZ4M59hK3VGN33L71DMCK1sFeLGJ7CCdOE7A9dNRmsiTzahu0hyupZHxOtZb6gfCZ2FTtSPaPTMTJZQ9pSls_oxnyHUaXGTkWY7zZjw4HWuB0RDAVUc"/>
+<div class="w-10 h-10 rounded-full border-4 border-surface-container bg-primary-container text-on-primary-container text-[10px] font-bold flex items-center justify-center">+14k</div>
+</div>
+<button class="flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all">
+                            Unlock Lesson <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Decorative Icon -->
+<span class="absolute -right-8 -bottom-8 material-symbols-outlined text-[12rem] text-primary/5 select-none pointer-events-none">auto_stories</span>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="lg:ml-64 w-full flex flex-col items-center gap-6 px-8 mt-20 py-12 bg-[#f5f6ff] border-t border-[#9aadd6]/10">
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-xs text-[#1a2e50]/60 hover:text-[#005ea0] transition-colors" href="#">Help Center</a>
+<a class="text-xs text-[#1a2e50]/60 hover:text-[#005ea0] transition-colors" href="#">About Us</a>
+<a class="text-xs text-[#1a2e50]/60 hover:text-[#005ea0] transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs text-[#1a2e50]/60 hover:text-[#005ea0] transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-bold text-[#1a2e50]">GrammarJourney</span>
+<span class="w-1 h-1 bg-outline-variant/30 rounded-full"></span>
+<p class="text-xs text-[#1a2e50]/60">© 2024 GrammarJourney. The Modern Pastoral Learning Path.</p>
+</div>
+</footer>
+<!-- Mobile Navigation Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md flex justify-around items-center py-4 px-2 border-t border-outline-variant/10 z-50">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="text-[10px] font-bold">Map</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] font-bold">History</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</a>
+</nav>
+</body></html>

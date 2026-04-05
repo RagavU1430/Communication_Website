@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assessment Complete | GrammarJourney</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be_Vietnam_Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#66affe",
+                    "tertiary-container": "#74c3fe",
+                    "inverse-surface": "#000d27",
+                    "on-tertiary-fixed": "#00253b",
+                    "on-secondary-fixed": "#004a29",
+                    "background": "#f5f6ff",
+                    "secondary": "#00693e",
+                    "tertiary-fixed-dim": "#65b5ef",
+                    "primary-dim": "#00528d",
+                    "surface-container-high": "#d7e2ff",
+                    "secondary-container": "#91f8b8",
+                    "on-primary-container": "#002e52",
+                    "surface-bright": "#f5f6ff",
+                    "surface-tint": "#005ea0",
+                    "secondary-dim": "#005c35",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#74c3fe",
+                    "tertiary": "#006190",
+                    "inverse-on-surface": "#8a9dc5",
+                    "surface": "#f5f6ff",
+                    "tertiary-dim": "#00547e",
+                    "surface-container": "#e0e8ff",
+                    "on-primary": "#edf3ff",
+                    "on-background": "#1a2e50",
+                    "outline-variant": "#9aadd6",
+                    "on-secondary-container": "#005e37",
+                    "on-error": "#ffefee",
+                    "surface-container-highest": "#cfddff",
+                    "primary-fixed": "#66affe",
+                    "on-error-container": "#570008",
+                    "secondary-fixed": "#91f8b8",
+                    "on-surface": "#1a2e50",
+                    "on-surface-variant": "#495c80",
+                    "error-container": "#fb5151",
+                    "primary-fixed-dim": "#58a2f0",
+                    "on-tertiary": "#eaf4ff",
+                    "on-primary-fixed": "#001124",
+                    "primary": "#005ea0",
+                    "surface-container-low": "#ecf0ff",
+                    "error-dim": "#9f0519",
+                    "surface-variant": "#cfddff",
+                    "inverse-primary": "#66affe",
+                    "on-tertiary-container": "#003c5c",
+                    "on-secondary-fixed-variant": "#00693e",
+                    "on-secondary": "#cbffd9",
+                    "outline": "#64779d",
+                    "on-primary-fixed-variant": "#003761",
+                    "error": "#b31b25",
+                    "secondary-fixed-dim": "#82e9aa",
+                    "on-tertiary-fixed-variant": "#004669",
+                    "surface-dim": "#c2d5ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Be Vietnam Pro"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+        .bg-confetti {
+            background-image: radial-gradient(circle, #66affe 10%, transparent 10.5%), radial-gradient(circle, #91f8b8 10%, transparent 10.5%), radial-gradient(circle, #74c3fe 10%, transparent 10.5%);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px, 10px 10px;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 backdrop-blur-lg bg-[#f5f6ff]/80 z-50">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-bold tracking-tight text-[#005ea0] font-headline">GrammarJourney</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center space-x-8 font-headline text-sm font-medium">
+<a class="text-[#1a2e50] opacity-70 hover:opacity-100 transition-opacity duration-200" href="#">Home</a>
+<a class="text-[#1a2e50] opacity-70 hover:opacity-100 transition-opacity duration-200" href="#">Journey Map</a>
+<a class="text-[#005ea0] font-bold border-b-2 border-[#005ea0]" href="#">History</a>
+<a class="text-[#1a2e50] opacity-70 hover:opacity-100 transition-opacity duration-200" href="#">Profile</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="emoji_events">emoji_events</span>
+<img alt="User profile avatar with level 6 badge" class="w-10 h-10 rounded-full border-2 border-primary-container p-0.5" data-alt="Modern professional portrait of a smiling user with soft lighting and a clean tech-focused aesthetic background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl9jehC0rxaVEvany83iG9pvO9yUog2Vn4Ozx37cE4LVgrxsOZwKSWLy570PnitVRkS_UveRuO8j6NwGY3wyKOWsyVw4aWYn1JuPv1Vr9BqsqL4DaKa_iEAs31b6Iv6mD1LSmG4C9SKAXVjJp4WWoCtU0Iu7faZAYka4TiCrqsuIMWN1qCr21fLd3-32WGXGKpMZsmVjt4Abftwm2P7vqMiS1G9R24PEFtFSlR9p81YxVt9Pw1lAPL7iF_IhgE1hlN7qRrpFXHQ62H"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Suppressed for focused Assessment Result page per shell visibility rules) -->
+<main class="pt-24 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+<!-- Hero Section: Celebration -->
+<header class="relative mb-12 py-12 px-8 bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col items-center text-center">
+<div class="absolute inset-0 bg-confetti"></div>
+<div class="relative z-10">
+<div class="mb-4 inline-flex items-center justify-center w-20 h-20 bg-secondary-container/30 rounded-full">
+<span class="material-symbols-outlined text-5xl text-secondary" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<h1 class="font-headline font-extrabold text-4xl md:text-5xl lg:text-6xl text-on-surface mb-4">Congratulations! Level 7 Complete</h1>
+<p class="text-on-surface-variant text-lg max-w-2xl mx-auto">
+                    You've mastered the intricacies of narrative structures. Your journey through the Modern Pastoral landscapes of grammar continues to flourish.
+                </p>
+</div>
+<!-- Asymmetric floating icons -->
+<span class="material-symbols-outlined absolute top-10 left-10 text-primary-container/20 text-6xl rotate-12" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined absolute bottom-10 right-10 text-secondary/20 text-6xl -rotate-12" data-icon="celebration">celebration</span>
+</header>
+<div class="bento-grid">
+<!-- Score Gauge Section -->
+<section class="col-span-12 lg:col-span-4 bg-surface-container-low rounded-lg p-8 flex flex-col items-center justify-center relative overflow-hidden group">
+<div class="text-center relative z-10">
+<h3 class="font-headline font-bold text-on-surface-variant mb-6">Communication Score</h3>
+<div class="relative w-48 h-48 flex items-center justify-center">
+<!-- SVG Circular Gauge -->
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-high" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="82.93" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline font-extrabold text-4xl text-on-surface">850</span>
+<span class="text-on-surface-variant text-sm">/ 1000</span>
+</div>
+</div>
+<div class="mt-6 flex items-center gap-2 text-secondary font-semibold">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span>Top 5% of learners</span>
+</div>
+</div>
+</section>
+<!-- Feedback Section -->
+<section class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-lg p-8 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary p-2 bg-primary-container/10 rounded-full" data-icon="forum">forum</span>
+<h2 class="font-headline font-bold text-2xl">Expert Feedback</h2>
+</div>
+<p class="text-xl leading-relaxed text-on-surface mb-6 font-medium">
+                        "You are improving! Your sentence structure is excellent. Work on sentence clarity for more natural flow."
+                    </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+<div class="p-6 bg-surface-container rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Strengths
+                            </h4>
+<ul class="space-y-2 text-on-surface-variant">
+<li class="flex items-center gap-2">Present/Past Tenses</li>
+<li class="flex items-center gap-2">Greetings</li>
+<li class="flex items-center gap-2">Simple Sentences</li>
+</ul>
+</div>
+<div class="p-6 bg-surface-container rounded-lg">
+<h4 class="font-headline font-bold text-on-surface mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-error" data-icon="architecture">architecture</span>
+                                Areas to improve
+                            </h4>
+<ul class="space-y-2 text-on-surface-variant">
+<li class="flex items-center gap-2">Opinion-based questions</li>
+<li class="flex items-center gap-2">Sentence correction</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Section -->
+<section class="col-span-12 bg-primary-dim rounded-xl p-10 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-primary to-primary-container opacity-90"></div>
+<div class="relative z-10 text-on-primary">
+<h3 class="font-headline font-bold text-2xl mb-2">Ready for the next chapter?</h3>
+<p class="opacity-90">Review your results or verify your achievements with the community.</p>
+</div>
+<div class="relative z-10 flex flex-wrap gap-4">
+<button class="px-8 py-4 bg-surface-container-lowest text-primary font-headline font-bold rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary-dim/20">
+                        View Full Certificate
+                    </button>
+<button class="px-8 py-4 border-2 border-on-primary text-on-primary font-headline font-bold rounded-xl transition-all hover:bg-on-primary/10 active:scale-95">
+                        Retake Assessment
+                    </button>
+</div>
+</section>
+<!-- Detailed Stats Bento -->
+<section class="col-span-12 md:col-span-6 bg-surface-container-low rounded-lg p-6 group">
+<h4 class="font-headline font-bold text-on-surface-variant mb-4">Milestones Unlocked</h4>
+<div class="flex flex-wrap gap-3">
+<div class="px-4 py-2 bg-secondary-container/40 text-on-secondary-container rounded-full text-sm font-bold flex items-center gap-2 border border-secondary/10">
+<span class="material-symbols-outlined text-lg" data-icon="workspace_premium">workspace_premium</span> Past Tense Pro
+                    </div>
+<div class="px-4 py-2 bg-primary-container/40 text-on-primary-container rounded-full text-sm font-bold flex items-center gap-2 border border-primary/10">
+<span class="material-symbols-outlined text-lg" data-icon="bolt">bolt</span> Fast Responder
+                    </div>
+<div class="px-4 py-2 bg-tertiary-container/40 text-on-tertiary-container rounded-full text-sm font-bold flex items-center gap-2 border border-tertiary/10">
+<span class="material-symbols-outlined text-lg" data-icon="psychology">psychology</span> Logical Flow
+                    </div>
+</div>
+</section>
+<section class="col-span-12 md:col-span-6 bg-surface-container-low rounded-lg p-6 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-on-surface-variant text-sm font-medium">Global Ranking</span>
+<span class="font-headline font-extrabold text-3xl">#1,204</span>
+</div>
+<div class="h-16 w-32 bg-surface-container-high rounded-lg flex items-end justify-between p-2 gap-1">
+<div class="bg-primary w-full h-[30%] rounded-sm"></div>
+<div class="bg-primary w-full h-[50%] rounded-sm"></div>
+<div class="bg-primary w-full h-[40%] rounded-sm"></div>
+<div class="bg-primary w-full h-[80%] rounded-sm"></div>
+<div class="bg-secondary w-full h-[100%] rounded-sm"></div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full flex flex-col items-center gap-6 px-8 mt-20 border-t border-[#9aadd6]/10 py-12 bg-[#f5f6ff]">
+<div class="flex flex-col md:flex-row justify-between w-full max-w-7xl gap-8">
+<div class="flex flex-col gap-4">
+<span class="font-bold text-[#1a2e50] text-xl">GrammarJourney</span>
+<p class="font-body text-xs text-[#1a2e50]/60 max-w-xs">© 2024 GrammarJourney. The Modern Pastoral Learning Path. Nurturing communication through intentional design.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<a class="text-xs font-headline font-medium text-[#1a2e50] hover:text-[#005ea0] transition-colors" href="#">Help Center</a>
+<a class="text-xs font-headline font-medium text-[#1a2e50] hover:text-[#005ea0] transition-colors" href="#">About Us</a>
+<a class="text-xs font-headline font-medium text-[#1a2e50] hover:text-[#005ea0] transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs font-headline font-medium text-[#1a2e50] hover:text-[#005ea0] transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+<div class="flex gap-4 mt-8">
+<span class="material-symbols-outlined text-[#1a2e50]/40 hover:text-[#005ea0] transition-colors cursor-pointer" data-icon="language">language</span>
+<span class="material-symbols-outlined text-[#1a2e50]/40 hover:text-[#005ea0] transition-colors cursor-pointer" data-icon="share">share</span>
+</div>
+</footer>
+</body></html>
