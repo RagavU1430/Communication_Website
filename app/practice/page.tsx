@@ -64,9 +64,28 @@ export default function Practice() {
   const startVisualizer = useCallback((stream: MediaStream) => {
     const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
     const source = audioCtx.createMediaStreamSource(stream);
+    
+    // Noise Removal Filter (High-pass to remove low-end rumble)
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = "highpass";
+    filter.frequency.value = 80; // Cut off frequencies below 80Hz (common hum/noise)
+    
+    // Compressor to normalize voice peaks
+    const compressor = audioCtx.createDynamicsCompressor();
+    compressor.threshold.setValueAtTime(-50, audioCtx.currentTime);
+    compressor.knee.setValueAtTime(40, audioCtx.currentTime);
+    compressor.ratio.setValueAtTime(12, audioCtx.currentTime);
+    compressor.attack.setValueAtTime(0, audioCtx.currentTime);
+    compressor.release.setValueAtTime(0.25, audioCtx.currentTime);
+
     const analyser = audioCtx.createAnalyser();
     analyser.fftSize = 64;
-    source.connect(analyser);
+
+    // Connect the chain: Source -> Filter -> Compressor -> Analyser
+    source.connect(filter);
+    filter.connect(compressor);
+    compressor.connect(analyser);
+    
     analyserRef.current = analyser;
 
     rawFreqFramesRef.current = [];
@@ -87,7 +106,14 @@ export default function Practice() {
 
   const requestMicAndRecord = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // requesting mic with explicit noise suppression and echo cancellation
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          noiseSuppression: true,
+          echoCancellation: true,
+          autoGainControl: true
+        } 
+      });
       streamRef.current = stream;
       setMicPermission("granted");
       setShowPermissionBanner(false);
@@ -438,6 +464,10 @@ export default function Practice() {
                 )}
 
                 <div className="text-center">
+                  <div className="flex items-center justify-center gap-2 mb-2 text-primary/60">
+                    <span className="material-symbols-outlined text-sm">filter_alt</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest">AI Noise Remover Active</span>
+                  </div>
                   <p className="font-bold text-lg text-on-surface">
                     {isRecording ? "Recording... Tap to stop" : micPermission === "denied" ? "Mic blocked — Tap to retry" : "Tap to Answer"}
                   </p>
