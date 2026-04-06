@@ -185,15 +185,24 @@ export default function Practice() {
     targetWords.forEach(w => {
       if (spokenWords.includes(w)) matches++;
     });
-    
-    // If no words were detected or audio is too quiet, short-circuit to 0 score.
-    if (spokenWords.length === 0 || maxVol < 5) {
+
+    // If no words were detected
+    if (spokenWords.length === 0) {
+      let noiseMessage = "No recognizable speech detected. Please review your recording and try again.";
+      
+      // Heuristic for noise: if volume is consistently high but no words recognized
+      if (meanVol > 35) {
+        noiseMessage = "More noise! Please sit in a silent environment.";
+      } else if (maxVol < 6) {
+        noiseMessage = "We couldn't hear you. Check your microphone and speak clearly.";
+      }
+
       setAnalysisResults({ 
         pitch: 0, 
         clarity: 0, 
         correctness: 0, 
         overall: 0, 
-        feedback: "No recognizable speech detected. Please review your recording and try again.", 
+        feedback: noiseMessage, 
         spoken: finalTranscript.trim() || "(No words recognized)" 
       });
       setIsAnalyzing(false);
