@@ -37,6 +37,12 @@ export default function LearningMap() {
           <h2 className="font-headline font-semibold text-[#1a2e50] text-lg">English Learner</h2>
           <p className="text-xs text-on-surface-variant opacity-70 leading-relaxed font-body">Level 0: Beginner</p>
         </div>
+        <div className="px-4 mb-4">
+          <button onClick={() => router.push("/practice")} className="w-full py-4 px-6 bg-secondary text-on-secondary rounded-xl font-headline font-bold text-sm shadow-lg shadow-secondary/20 transition-transform active:scale-95 flex items-center justify-center gap-2">
+            <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
+            Daily Challenge
+          </button>
+        </div>
         <nav className="flex-1 space-y-1">
           <button onClick={() => router.push("/dashboard")} className="w-full flex items-center gap-4 text-[#1a2e50] px-4 py-3 mx-2 hover:bg-[#d7e2ff]/50 rounded-full transition-all">
             <span className="material-symbols-outlined">home</span>
@@ -55,11 +61,7 @@ export default function LearningMap() {
             <span className="font-headline font-semibold">Profile</span>
           </button>
         </nav>
-        <div className="px-4 mt-auto">
-          <button onClick={() => router.push("/practice")} className="w-full py-4 px-6 bg-secondary text-on-secondary rounded-xl font-headline font-bold text-sm shadow-lg shadow-secondary/20 transition-transform active:scale-95">
-            Start Daily Challenge
-          </button>
-        </div>
+
       </aside>
 
       {/* Main Canvas */}

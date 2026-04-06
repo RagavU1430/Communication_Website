@@ -81,6 +81,12 @@ export default function Dashboard() {
           <h3 className="font-headline font-bold text-on-surface text-lg">{email}</h3>
           <p className="text-xs text-on-surface-variant">Level 0: Beginner</p>
         </div>
+        <div className="px-4 mb-4">
+          <button onClick={() => router.push("/practice")} className="w-full py-4 bg-secondary text-on-secondary rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-secondary/20 hover:scale-105 transition-transform active:scale-95">
+            <span className="material-symbols-outlined">bolt</span>
+            Daily Challenge
+          </button>
+        </div>
         <nav className="flex flex-col gap-1">
           <button onClick={() => router.push("/dashboard")} className="bg-gradient-to-r from-[#005ea0] to-[#66affe] text-white rounded-full mx-2 my-1 px-4 py-3 flex items-center gap-3">
             <span className="material-symbols-outlined">home</span>
@@ -99,12 +105,7 @@ export default function Dashboard() {
             <span className="font-headline font-semibold">Profile</span>
           </button>
         </nav>
-        <div className="mt-auto px-4 pb-12">
-          <button onClick={() => router.push("/practice")} className="w-full py-4 bg-secondary text-on-secondary rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-secondary/20 hover:scale-105 transition-transform">
-            <span className="material-symbols-outlined">bolt</span>
-            Daily Challenge
-          </button>
-        </div>
+
       </aside>
 
       {/* Main Content Canvas */}
@@ -208,7 +209,8 @@ export default function Dashboard() {
               </div>
               <div className="pt-6 border-t border-outline-variant/10">
                 <p className="text-sm text-on-surface-variant leading-relaxed">
-                  <span className="font-bold text-primary">Tip:</span> Try the &quot;Question Master&quot; drill today to improve your inquiry skills.
+                  <span className="font-bold text-primary">Tip:</span>{" "}
+                  Try the &quot;Question Master&quot; drill today to improve your inquiry skills.
                 </p>
               </div>
             </div>
