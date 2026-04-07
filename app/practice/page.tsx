@@ -39,6 +39,26 @@ export default function Practice() {
   // Speech Recognition
   const recognitionRef = useRef<any>(null);
   const transcriptRef = useRef<string>("");
+  const finalTranscriptRef = useRef<string>("");
+  const interimTranscriptRef = useRef<string>("");
+
+  // Audio Analysis State (from voicerecorder.html)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const volumeSamplesRef = useRef<number[]>([]);
+  const noiseSamplesRef = useRef<number[]>([]);
+  const noiseExceededCountRef = useRef<number>(0);
+  const totalFramesRef = useRef<number>(0);
+  const [noiseLevel, setNoiseLevel] = useState(0);
+  const [showNoiseWarning, setShowNoiseWarning] = useState(false);
+  const [qualityMetrics, setQualityMetrics] = useState({
+    volume: 0,
+    snr: 0,
+    speech: 0,
+    noise: 0,
+    verdict: "",
+    details: { snrVal: 0, meanVol: 0, stdDev: 0, wordCount: 0, cleanPct: 0 }
+  });
 
   // Check mic permission on mount
   useEffect(() => {
@@ -63,42 +83,93 @@ export default function Practice() {
 
   const startVisualizer = useCallback((stream: MediaStream) => {
     const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    audioCtxRef.current = audioCtx;
     const source = audioCtx.createMediaStreamSource(stream);
     
-    // Noise Removal Filter (High-pass to remove low-end rumble)
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = "highpass";
-    filter.frequency.value = 80; // Cut off frequencies below 80Hz (common hum/noise)
-    
-    // Compressor to normalize voice peaks
-    const compressor = audioCtx.createDynamicsCompressor();
-    compressor.threshold.setValueAtTime(-50, audioCtx.currentTime);
-    compressor.knee.setValueAtTime(40, audioCtx.currentTime);
-    compressor.ratio.setValueAtTime(12, audioCtx.currentTime);
-    compressor.attack.setValueAtTime(0, audioCtx.currentTime);
-    compressor.release.setValueAtTime(0.25, audioCtx.currentTime);
-
     const analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 64;
-
-    // Connect the chain: Source -> Filter -> Compressor -> Analyser
-    source.connect(filter);
-    filter.connect(compressor);
-    compressor.connect(analyser);
-    
+    analyser.fftSize = 2048;
+    analyser.smoothingTimeConstant = 0.75;
+    source.connect(analyser);
     analyserRef.current = analyser;
 
-    rawFreqFramesRef.current = [];
+    const timeData = new Uint8Array(analyser.fftSize);
+    const freqData = new Uint8Array(analyser.frequencyBinCount);
+    
+    volumeSamplesRef.current = [];
+    noiseSamplesRef.current = [];
+    noiseExceededCountRef.current = 0;
+    totalFramesRef.current = 0;
 
-    const dataArray = new Uint8Array(analyser.frequencyBinCount);
+    const NOISE_THRESHOLD = 140;
+
     const animate = () => {
-      analyser.getByteFrequencyData(dataArray);
+      if (!analyserRef.current || !canvasRef.current) return;
       
-      // Store a copy of the frame for AI pitch/clarity analysis later
-      rawFreqFramesRef.current.push(new Uint8Array(dataArray));
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
 
-      const bars = Array.from(dataArray).slice(0, 20).map(v => Math.max(4, (v / 255) * 40));
-      setAudioLevels(bars);
+      analyser.getByteTimeDomainData(timeData);
+      analyser.getByteFrequencyData(freqData);
+
+      // --- Draw Waveform ---
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      
+      // Grid lines
+      ctx.strokeStyle = 'rgba(0, 94, 160, 0.1)';
+      ctx.lineWidth = 1;
+      for (let i = 1; i < 4; i++) {
+        ctx.beginPath();
+        ctx.moveTo(0, (h / 4) * i);
+        ctx.lineTo(w, (h / 4) * i);
+        ctx.stroke();
+      }
+
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#00e5a0'; // Vibrant teal for studio feel
+      ctx.shadowColor = 'rgba(0, 229, 160, 0.5)';
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+      const sliceWidth = w / timeData.length;
+      let x = 0;
+      for (let i = 0; i < timeData.length; i++) {
+        const v = timeData[i] / 128.0;
+        const y = (v * h) / 2;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+        x += sliceWidth;
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0; // Reset blur for other drawing
+
+      // --- Audio Analysis ---
+      // Avg amplitude for noise meter
+      let sum = 0;
+      for (let i = 0; i < freqData.length; i++) sum += freqData[i];
+      const avgAmplitude = sum / freqData.length;
+      setNoiseLevel(avgAmplitude);
+
+      // RMS for volume consistency
+      let rmsSum = 0;
+      for (let i = 0; i < timeData.length; i++) {
+        const val = (timeData[i] - 128) / 128;
+        rmsSum += val * val;
+      }
+      const rms = Math.sqrt(rmsSum / timeData.length);
+
+      volumeSamplesRef.current.push(rms);
+      noiseSamplesRef.current.push(avgAmplitude);
+      totalFramesRef.current++;
+
+      if (avgAmplitude > NOISE_THRESHOLD) {
+        noiseExceededCountRef.current++;
+        setShowNoiseWarning(true);
+      } else {
+        setShowNoiseWarning(false);
+      }
+
       animFrameRef.current = requestAnimationFrame(animate);
     };
     animate();
@@ -128,12 +199,22 @@ export default function Practice() {
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.lang = 'en-US';
+        
+        finalTranscriptRef.current = "";
+        interimTranscriptRef.current = "";
+
         recognition.onresult = (event: any) => {
-          let currentTranscript = "";
-          for (let i = 0; i < event.results.length; i++) {
-            currentTranscript += event.results[i][0].transcript;
+          let currentInterim = "";
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              finalTranscriptRef.current += transcript + " ";
+            } else {
+              currentInterim = transcript;
+            }
           }
-          transcriptRef.current = currentTranscript;
+          interimTranscriptRef.current = currentInterim;
+          transcriptRef.current = finalTranscriptRef.current + currentInterim;
         };
         recognition.start();
         recognitionRef.current = recognition;
@@ -169,16 +250,32 @@ export default function Practice() {
     }
   };
 
-  const calculateAIScores = (finalTranscript: string, rawFrequencies: Uint8Array[]) => {
+  const calculateAIScores = (finalTranscript: string) => {
     const targetPhrase = "He eats breakfast every morning".toLowerCase().replace(/[^a-z ]/g, '');
     const spokenPhrase = (finalTranscript || "").toLowerCase().replace(/[^a-z ]/g, '');
     
-    // Parse baseline audio signals to detect absolute silence or noise
-    const volumeLevels = rawFrequencies.map(arr => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1));
-    const meanVol = volumeLevels.reduce((a, b) => a + b, 0) / (volumeLevels.length || 1);
-    const maxVol = Math.max(0.1, ...volumeLevels);
+    const volumeSamples = volumeSamplesRef.current;
+    if (volumeSamples.length < 10) {
+      setIsAnalyzing(false);
+      return;
+    }
 
-    // 1. Correctness Score (Text mapping)
+    // --- 1. Volume Consistency ---
+    const meanVol = volumeSamples.reduce((a, b) => a + b, 0) / volumeSamples.length;
+    const variance = volumeSamples.reduce((a, b) => a + Math.pow(b - meanVol, 2), 0) / volumeSamples.length;
+    const stdDev = Math.sqrt(variance);
+    const volScore = Math.round(25 * (1 - Math.min(stdDev / 0.15, 1)));
+
+    // --- 2. SNR Score ---
+    const SPEECH_RMS_FLOOR = 0.04;
+    const speechFrames = volumeSamples.filter(v => v > SPEECH_RMS_FLOOR);
+    const noiseFrames = volumeSamples.filter(v => v <= SPEECH_RMS_FLOOR);
+    const meanSpeech = speechFrames.length ? speechFrames.reduce((a, b) => a + b, 0) / speechFrames.length : 0;
+    const meanNoise = noiseFrames.length ? noiseFrames.reduce((a, b) => a + b, 0) / noiseFrames.length : 0.001;
+    const snr = meanSpeech / (meanNoise + 0.001);
+    const snrScore = Math.round(30 * Math.min(snr / 4.0, 1));
+
+    // --- 3. Correctness & Speech Detected ---
     const targetWords = targetPhrase.split(' ');
     const spokenWords = spokenPhrase.split(' ').filter(Boolean);
     let matches = 0;
@@ -186,77 +283,51 @@ export default function Practice() {
       if (spokenWords.includes(w)) matches++;
     });
 
-    // If no words were detected
-    if (spokenWords.length === 0) {
-      let noiseMessage = "No recognizable speech detected. Please review your recording and try again.";
-      
-      // Heuristic for noise: if volume is consistently high but no words recognized
-      if (meanVol > 35) {
-        noiseMessage = "More noise! Please sit in a silent environment.";
-      } else if (maxVol < 6) {
-        noiseMessage = "We couldn't hear you. Check your microphone and speak clearly.";
+    const correctnessScore = Math.round((matches / targetWords.length) * 100);
+    const speechDetectedScore = Math.round(25 * Math.min(spokenWords.length / targetWords.length, 1));
+
+    // --- 4. Noise Stability ---
+    const noiseRatio = noiseExceededCountRef.current / totalFramesRef.current;
+    const noiseStabilityScore = Math.round(20 * (1 - noiseRatio));
+
+    // Quality Verdict
+    const totalQuality = volScore + snrScore + speechDetectedScore + noiseStabilityScore;
+    let qualityVerdict = "";
+    if (totalQuality >= 80) qualityVerdict = "Excellent audio clarity!";
+    else if (totalQuality >= 55) qualityVerdict = "Good audio, but try reducing background noise.";
+    else qualityVerdict = "Low audio quality detected. Speak closer to the mic.";
+
+    setQualityMetrics({
+      volume: volScore,
+      snr: snrScore,
+      speech: speechDetectedScore,
+      noise: noiseStabilityScore,
+      verdict: qualityVerdict,
+      details: {
+        snrVal: snr,
+        meanVol: meanVol,
+        stdDev: stdDev,
+        wordCount: spokenWords.length,
+        cleanPct: (1 - noiseRatio) * 100
       }
-
-      setAnalysisResults({ 
-        pitch: 0, 
-        clarity: 0, 
-        correctness: 0, 
-        overall: 0, 
-        feedback: noiseMessage, 
-        spoken: finalTranscript.trim() || "(No words recognized)" 
-      });
-      setIsAnalyzing(false);
-      setHasSubmitted(true);
-      return;
-    }
-
-    let correctnessScore = Math.round((matches / targetWords.length) * 100);
-    // specific grammar check: third person singular 's' penalty
-    if (!spokenWords.includes("eats") && spokenWords.includes("eat")) correctnessScore -= 15;
-    correctnessScore = Math.min(100, Math.max(10, correctnessScore)); // floor at 10
-
-    // 2. Pitch Dynamics (Variance in frequency peaks)
-    // Find dominant frequency bin in each frame
-    const dominantFreqs = rawFrequencies.map(arr => {
-      let maxVal = 0, maxIdx = 0;
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] > maxVal) { maxVal = arr[i]; maxIdx = i; }
-      }
-      return maxIdx;
     });
 
-    const meanFreq = dominantFreqs.reduce((a, b) => a + b, 0) / (dominantFreqs.length || 1);
-    const variance = dominantFreqs.reduce((a, b) => a + Math.pow(b - meanFreq, 2), 0) / (dominantFreqs.length || 1);
-    
-    let pitchScore = Math.round(50 + (variance * 1.5) + (Math.random() * 10));
-    if (isNaN(pitchScore) || rawFrequencies.length < 10) pitchScore = 80 + Math.floor(Math.random() * 15);
-    pitchScore = Math.min(100, Math.max(30, pitchScore));
+    // Overall Score (Weighted combinations)
+    const overall = gapFix(Math.round((correctnessScore * 0.6) + (totalQuality * 0.4)));
 
-    // 3. Voice Clarity (Signal-to-Noise Ratio proxy)
-    // Difference between max volumes and mean volumes signifies clear bursts of speech vs static noise
-    let clarityScore = Math.round((maxVol / (meanVol + 5)) * 40);
-    if (isNaN(clarityScore) || rawFrequencies.length < 10) clarityScore = 85 + Math.floor(Math.random() * 10);
-    // boost bounds
-    if (clarityScore < 40) clarityScore = 40 + Math.floor(Math.random() * 20);
-    clarityScore = Math.min(100, Math.max(20, clarityScore));
-
-    // Overall Calculation (Weighted)
-    const overall = gapFix(Math.round((correctnessScore * 0.5) + (pitchScore * 0.25) + (clarityScore * 0.25)));
-
-    // Generate dynamic feedback
+    // Generate feedback
     let feedbackText = "";
-    if (overall >= 90) feedbackText = "Outstanding pronunciation! Your pitch modulation sounded completely natural and native-like.";
+    if (overall >= 90) feedbackText = "Outstanding pronunciation! Your speech was clear and perfectly synchronized.";
     else if (overall >= 75) {
-      if (correctnessScore < 80) feedbackText = "Great voice clarity, but make sure to pronounce every word completely (especially grammar endings like 's').";
-      else if (pitchScore < 75) feedbackText = "Your grammar was spot on! Try adding a bit more intonation to avoid sounding flat.";
+      if (correctnessScore < 80) feedbackText = "Great voice clarity, but make sure to pronounce every word clearly.";
       else feedbackText = "Good effort! Your tone and clarity are developing nicely.";
     } else {
-      feedbackText = "Keep practicing! Ensure you are in a quiet environment and try echoing the sentence exactly as written.";
+      feedbackText = "Keep practicing! Ensure you are in a quiet environment and try echoing the sentence exactly.";
     }
 
     setAnalysisResults({ 
-      pitch: pitchScore, 
-      clarity: clarityScore, 
+      pitch: totalQuality, // Repurposing pitch for general quality for now
+      clarity: Math.round((snrScore / 30) * 100), 
       correctness: correctnessScore, 
       overall, 
       feedback: feedbackText, 
@@ -293,7 +364,7 @@ export default function Practice() {
     
     // Simulate AI processing delay for 2 seconds while preparing data
     setTimeout(() => {
-      calculateAIScores(transcriptRef.current, rawFreqFramesRef.current);
+      calculateAIScores(transcriptRef.current);
     }, 2000);
   };
 
@@ -417,9 +488,55 @@ export default function Practice() {
               </h2>
             </div>
 
-            {/* Recording Interaction */}
+            {/* Audio Analysis Interaction */}
             {(!isAnalyzing && !hasSubmitted) && (
               <div className="flex flex-col items-center justify-center p-8 bg-surface-container-lowest rounded-xl border border-outline-variant/20 shadow-sm space-y-6">
+                
+                {/* Waveform Canvas */}
+                <div className="w-full relative bg-surface-container-low rounded-lg overflow-hidden h-24 border border-outline-variant/10">
+                  <canvas 
+                    ref={canvasRef} 
+                    width={400} 
+                    height={100}
+                    className="w-full h-full block"
+                  />
+                  {!isRecording && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/40">— awaiting input —</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Noise Meter */}
+                <div className="w-full space-y-2">
+                  <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">
+                    <span>Noise Monitor</span>
+                    <span>{Math.round(noiseLevel)}</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+                    <motion.div 
+                      className={`h-full ${noiseLevel > 140 ? 'bg-error' : 'bg-secondary'}`}
+                      animate={{ width: `${Math.min(100, (noiseLevel / 255) * 100 * 2)}%` }}
+                      transition={{ duration: 0.1 }}
+                    />
+                  </div>
+                </div>
+
+                {/* Noise Warning */}
+                <AnimatePresence>
+                  {showNoiseWarning && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="w-full bg-error/10 border border-error/20 p-3 rounded-lg flex items-center gap-2"
+                    >
+                      <span className="material-symbols-outlined text-error text-sm">warning</span>
+                      <p className="text-[11px] text-error font-bold leading-tight">Noise level too high! Move to a quieter area.</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 {/* Mic Button */}
                 <div className="relative">
                   {isRecording && (
@@ -429,16 +546,10 @@ export default function Practice() {
                         animate={{ scale: [1, 1.8], opacity: [0.4, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
                       />
-                      <motion.div
-                        className="absolute inset-0 rounded-full bg-primary/15"
-                        animate={{ scale: [1, 2.2], opacity: [0.3, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
-                      />
                     </>
                   )}
                   <motion.div
                     animate={{ scale: isRecording ? 1.1 : 1 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     className={`relative w-24 h-24 rounded-full flex items-center justify-center cursor-pointer transition-colors shadow-xl ${
                       isRecording 
                         ? "bg-error text-white shadow-error/30" 
@@ -448,39 +559,23 @@ export default function Practice() {
                     }`}
                     onClick={toggleRecording}
                   >
-                    <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-                      {isRecording ? "stop" : micPermission === "denied" ? "mic_off" : "mic"}
-                    </span>
+                    {isRecording ? (
+                      <div className="w-8 h-8 bg-white rounded-sm" />
+                    ) : (
+                      <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        {micPermission === "denied" ? "mic_off" : "mic"}
+                      </span>
+                    )}
                   </motion.div>
                 </div>
 
-                {/* Audio Waveform Visualizer */}
-                {isRecording && (
-                  <motion.div 
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    className="flex items-end justify-center gap-[3px] h-12 w-full max-w-[200px]"
-                  >
-                    {audioLevels.map((level, i) => (
-                      <motion.div
-                        key={i}
-                        className="w-[6px] bg-primary rounded-full"
-                        animate={{ height: level }}
-                        transition={{ duration: 0.05 }}
-                      />
-                    ))}
-                  </motion.div>
-                )}
-
                 <div className="text-center">
-                  <div className="flex items-center justify-center gap-2 mb-2 text-primary/60">
-                    <span className="material-symbols-outlined text-sm">filter_alt</span>
-                    <span className="text-[10px] font-bold uppercase tracking-widest">AI Noise Remover Active</span>
-                  </div>
                   <p className="font-bold text-lg text-on-surface">
                     {isRecording ? "Recording... Tap to stop" : micPermission === "denied" ? "Mic blocked — Tap to retry" : "Tap to Answer"}
                   </p>
-                  <p className="text-sm text-on-surface-variant">&quot;He eats breakfast every morning&quot;</p>
+                  <p className="text-sm text-on-surface-variant font-medium italic mt-1">
+                    {isRecording ? (transcriptRef.current || "Listening...") : "\"He eats breakfast every morning\""}
+                  </p>
                 </div>
               </div>
             )}
@@ -593,7 +688,65 @@ export default function Practice() {
                     )}
                   </motion.div>
                   
-                  <div className="mt-6 flex flex-wrap justify-center gap-4">
+                  {/* Quality Report (New from voicerecorder.html) */}
+                  <div className="mt-8 pt-8 border-t border-outline-variant/10">
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="material-symbols-outlined text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>analytics</span>
+                      <h4 className="font-headline font-bold text-sm uppercase tracking-widest text-on-surface-variant">Audio Quality Report</h4>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Consistency</span>
+                          <span className="text-xs font-bold">{qualityMetrics.volume}/25</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+                          <motion.div initial={{ width: 0 }} animate={{ width: `${(qualityMetrics.volume / 25) * 100}%` }} className="h-full bg-secondary" transition={{ duration: 1 }} />
+                        </div>
+                        <p className="text-[10px] text-on-surface-variant/70 mt-2 italic">±{Math.round(qualityMetrics.details.stdDev * 100)}% volume deviation</p>
+                      </div>
+
+                      <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Clarity (SNR)</span>
+                          <span className="text-xs font-bold">{qualityMetrics.snr}/30</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+                          <motion.div initial={{ width: 0 }} animate={{ width: `${(qualityMetrics.snr / 30) * 100}%` }} className="h-full bg-primary" transition={{ duration: 1 }} />
+                        </div>
+                        <p className="text-[10px] text-on-surface-variant/70 mt-2 italic">SNR ≈ {qualityMetrics.details.snrVal.toFixed(1)}x over background</p>
+                      </div>
+
+                      <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Speech Detected</span>
+                          <span className="text-xs font-bold">{qualityMetrics.speech}/25</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+                          <motion.div initial={{ width: 0 }} animate={{ width: `${(qualityMetrics.speech / 25) * 100}%` }} className="h-full bg-tertiary" transition={{ duration: 1 }} />
+                        </div>
+                        <p className="text-[10px] text-on-surface-variant/70 mt-2 italic">{qualityMetrics.details.wordCount} words recognized</p>
+                      </div>
+
+                      <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Environment</span>
+                          <span className="text-xs font-bold">{qualityMetrics.noise}/20</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+                          <motion.div initial={{ width: 0 }} animate={{ width: `${(qualityMetrics.noise / 20) * 100}%` }} className="h-full bg-secondary-fixed" transition={{ duration: 1 }} />
+                        </div>
+                        <p className="text-[10px] text-on-surface-variant/70 mt-2 italic">{Math.round(qualityMetrics.details.cleanPct)}% frames noise-free</p>
+                      </div>
+                    </div>
+
+                    <div className={`mt-4 p-4 rounded-xl text-xs font-medium border ${qualityMetrics.volume + qualityMetrics.snr + qualityMetrics.speech + qualityMetrics.noise > 60 ? 'bg-secondary/5 border-secondary/20 text-secondary' : 'bg-error/5 border-error/20 text-error'}`}>
+                       {qualityMetrics.verdict}
+                    </div>
+                  </div>
+                  
+                  <div className="mt-8 flex flex-wrap justify-center gap-4">
                     {audioUrl && (
                       <button onClick={() => {
                         const audio = new Audio(audioUrl);
